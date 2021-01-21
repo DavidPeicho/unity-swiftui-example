@@ -35,7 +35,10 @@ For a complete explanation of the architecture of this example, please have a
 look at my [blog post (not yet available)]().
 
 TODO:
+
 * Having a LaunchScreen is mandatory for Unity to work
+* Function pointer from Unity to iOS for cross communication
+* Load the UnityFramework
 
 ## FAQ
 
