@@ -3,7 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void (*DelegateTest)(const char* name);
+typedef void (*TestDelegate)(const char* name);
 
 // NativeCallsProtocol defines protocol with methods you want to be called
 // from managed.
@@ -13,8 +13,8 @@ typedef void (*DelegateTest)(const char* name);
 // will be in charge of bridging Unity's call to the iOS delegate.
 @protocol NativeCallsProtocol
 @required
-- (void) onUnityStateChange:(NSString*) state;
-- (void) onSetTestDelegate:(DelegateTest) delegate;
+- (void) onUnityStateChange:(const NSString*) state;
+- (void) onSetTestDelegate:(TestDelegate) delegate;
 // other methods
 @end
 

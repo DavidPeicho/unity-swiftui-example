@@ -21,13 +21,14 @@ extern "C" {
   void
   sendUnityStateUpdate(const char* state)
   {
-    [api onUnityStateChange: state];
+      const NSString* str = @(state);
+      [api onUnityStateChange: str];
   }
 
   void
-  setTestDelegate(DelegateTest delegate)
+  setTestDelegate(TestDelegate delegate)
   {
-    [api onSetTestDelegate: delegate];
+      [api onSetTestDelegate: delegate];
   }
 
 }
