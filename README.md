@@ -21,12 +21,16 @@ without the need to serialize it to a string beforehand.
 
 ### Unity Project
 
-Start first by opening the unity project and building it. As a build folder,
-please build into `unityapp/Build/iOS/`.
+* Open the Unity project located in the `unitapp/` folder
+* Select the scene `SampleScene.unity`
+* In `File > Build Settings...`, select the iOS target
+* Click the `Build` button and build in the director `unityapp/Build/iOS/`
 
 ### XCode Project
 
-Open the workspace `unitysandbox.xcworkspace` at the root of this repository.
+* Open the workspace `unitysandbox.xcworkspace`
+* Change the target membership of `NativeCallProxy.h` and `Data/`. Please
+follow the visual steps described [here](https://github.com/Unity-Technologies/uaal-example/blob/master/docs/ios.md)
 You can then build the sandbox app and run it in XCode.
 
 ## How
