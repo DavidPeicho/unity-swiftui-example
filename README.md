@@ -36,7 +36,7 @@ You can then build the sandbox app and run it in XCode.
 ## How
 
 For a complete explanation of the architecture of this example, please have a
-look at my [blog post (not yet available)]().
+look at my [blog post](https://davidpeicho.github.io/blog/unity-integration-swiftui/).
 
 TODO:
 
