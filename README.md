@@ -26,19 +26,21 @@ without the need to serialize it to a string beforehand.
 * Open the Unity project located in the `unitapp/` folder
 * Select the scene `SampleScene.unity`
 * In `File > Build Settings...`, select the iOS target
-* Click the `Build` button and build in the director `unityapp/Build/iOS/`
+* Click the `Build` button and build in the director `UnityBuild` (so, `[REPO]/UnityBuild`)
 
 ### XCode Project
 
-* Open the workspace `unitysandbox.xcworkspace`
-* Change the target membership of `NativeCallProxy.h` and `Data/`. Please
-follow the visual steps described [here](https://github.com/Unity-Technologies/uaal-example/blob/master/docs/ios.md)
-You can then build the sandbox app and run it in XCode.
+Always open the workspace `unitysandbox.xcworkspace`, and not the `.xcodeproj` file.
 
 ## How
 
 For a complete explanation of the architecture of this example, please have a
-look at my [blog post](https://davidpeicho.github.io/blog/unity-integration-swiftui/).
+look at my two blog posts:
+
+* [https://davidpeicho.github.io/blog/unity-integration-swiftui/](https://davidpeicho.github.io/blog/unity-integration-swiftui/)
+* [https://davidpeicho.github.io/blog/unity-integration-swiftui/](https://davidpeicho.github.io/blog/unity-swiftui-integration-revisited/).
+
+The second link is an improvement of the first one. The `main` branch of this repository is in the same state as the second blog post.
 
 TODO:
 
