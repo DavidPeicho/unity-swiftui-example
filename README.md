@@ -19,18 +19,21 @@ without the need to serialize it to a string beforehand.
 
 ## Build
 
-> Note: I have only tested the build with Unity 2020.2.1f1 and XCode 12.0
-
-### Unity Project
+### 1, Unity Project
 
 * Open the Unity project located in the `unitapp/` folder
 * Select the scene `SampleScene.unity`
 * In `File > Build Settings...`, select the iOS target
 * Click the `Build` button and build in the director `UnityBuild` (so, `[REPO]/UnityBuild`)
 
-### XCode Project
+![Screenshot showing where I build the Unity package](./screenshots/build-step.jpg)
 
-Always open the workspace `unitysandbox.xcworkspace`, and not the `.xcodeproj` file.
+### 2. XCode Project
+
+* Open the workspace `unitysandbox.xcworkspace` file, and not the `.xcodeproj` file
+* Ensure the UnityFramework framework is listed
+
+![Screenshot showing where to add the UnityFramework entry](./screenshots/xcode-framework.jpg)
 
 ## How
 
