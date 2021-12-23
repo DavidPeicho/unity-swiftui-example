@@ -1,6 +1,3 @@
-// [!] important set UnityFramework in Target Membership for this file
-// [!]           and set Public header visibility
-
 #import <Foundation/Foundation.h>
 
 typedef void (*TestDelegate)(const char* name);

@@ -1,58 +1,19 @@
-//
-//  Created by Simon Tysland on 19/08/2019.
-//
 import Foundation
 import UnityFramework
-
-class API: NativeCallsProtocol {
-
-    internal weak var bridge: UnityBridge!
-    
-    /**
-        Function pointers to static functions declared in Unity
-     */
-    
-    private var testCallback: TestDelegate!
-    
-    /**
-        Public API
-     */
-    
-    public func test(_ value: String) {
-        self.testCallback(value)
-    }
-    
-    /**
-        Internal methods are called by Unity
-     */
-    
-    internal func onUnityStateChange(_ state: String) {
-        switch (state) {
-        case "ready":
-            self.bridge.unityGotReady()
-        default:
-            return
-        }
-    }
-    
-    internal func onSetTestDelegate(_ delegate: TestDelegate!) {
-        self.testCallback = delegate
-    }
-    
-}
 
 class UnityBridge: UIResponder, UIApplicationDelegate, UnityFrameworkListener {
  
     private static var instance : UnityBridge?
     
     internal(set) public var isReady: Bool = false
-    public var api: API
+    public var ready: () -> () = {}
+    
+    public let api: UnityAPI
     private let ufw: UnityFramework
     
     public var view: UIView? {
         get { return self.ufw.appController()?.rootView }
     }
-    public var onReady: () -> () = {}
     
     public static func getInstance() -> UnityBridge {
         if UnityBridge.instance == nil {
@@ -80,13 +41,24 @@ class UnityBridge: UIResponder, UIApplicationDelegate, UnityFrameworkListener {
     internal override init() {
         self.ufw = UnityBridge.loadUnityFramework()!
         self.ufw.setDataBundleId("com.unity3d.framework")
-        self.api = API()
+        self.api = UnityAPI()
         super.init()
-        self.api.bridge = self
+        self.api.communicator = self
         self.ufw.register(self)
         FrameworkLibAPI.registerAPIforNativeCalls(self.api)
    
+        self.api.ready = {
+            self.isReady = true
+            self.ready()
+        }
+        
         ufw.runEmbedded(withArgc: CommandLine.argc, argv: CommandLine.unsafeArgv, appLaunchOpts: nil)
+    }
+    
+    public func show() {
+        if self.isReady {
+            self.ufw.showUnityWindow()
+        }
     }
     
     public func show(controller: UIViewController) {
@@ -95,6 +67,7 @@ class UnityBridge: UIResponder, UIApplicationDelegate, UnityFrameworkListener {
         }
         if let view = self.view {
             controller.view?.addSubview(view)
+            // view.addSubview(controller.view!)
         }
     }
 
@@ -102,14 +75,17 @@ class UnityBridge: UIResponder, UIApplicationDelegate, UnityFrameworkListener {
         self.ufw.unloadApplication()
     }
     
-    internal func unityGotReady() {
-        self.isReady = true
-        onReady()
-    }
-    
     internal func unityDidUnload(_ notification: Notification!) {
         ufw.unregisterFrameworkListener(self)
         UnityBridge.instance = nil
     }
  
+}
+
+extension UnityBridge: UnityCommunicationProtocol {
+    
+    public func sendMessageToGameObject(go: String, function: String, message: String) {
+        self.ufw.sendMessageToGO(withName: go, functionName: function, message: message)
+    }
+
 }

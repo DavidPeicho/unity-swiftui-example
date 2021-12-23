@@ -1,0 +1,11 @@
+framework module UnityFramework {
+  umbrella header "UnityFramework.h"
+
+  export *
+  module * { export * }
+
+  module UnityInterface {
+      header "NativeCallProxy.h"
+      export *
+  }
+}

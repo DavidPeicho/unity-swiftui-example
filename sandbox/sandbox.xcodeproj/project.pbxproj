@@ -9,22 +9,24 @@
 /* Begin PBXBuildFile section */
 		E61361FC25BA3CFA0005B57A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E61361FB25BA3CFA0005B57A /* LaunchScreen.storyboard */; };
 		E61361FE25BA3D150005B57A /* UnityBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61361FD25BA3D150005B57A /* UnityBridge.swift */; };
-		E64BDA9B25BAD9B4005368B4 /* UnityFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E64BDA9025BAD700005368B4 /* UnityFramework.framework */; };
-		E64BDA9C25BAD9B4005368B4 /* UnityFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E64BDA9025BAD700005368B4 /* UnityFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E6DE818525BA36230019BED1 /* sandboxApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DE818425BA36230019BED1 /* sandboxApp.swift */; };
+		E62A7ACA2773D326007CE3D6 /* UnityFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E62A7AC92773D326007CE3D6 /* UnityFramework.framework */; };
+		E62A7ACB2773D326007CE3D6 /* UnityFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E62A7AC92773D326007CE3D6 /* UnityFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E62A7ACE2773E48A007CE3D6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62A7ACD2773E48A007CE3D6 /* AppDelegate.swift */; };
+		E62A7AD02773E4DA007CE3D6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62A7ACF2773E4DA007CE3D6 /* SceneDelegate.swift */; };
+		E62A7AD42773F6AC007CE3D6 /* UIWindowCustom.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62A7AD32773F6AC007CE3D6 /* UIWindowCustom.swift */; };
 		E6DE818725BA36230019BED1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DE818625BA36230019BED1 /* ContentView.swift */; };
 		E6DE818925BA36240019BED1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6DE818825BA36240019BED1 /* Assets.xcassets */; };
 		E6DE818C25BA36240019BED1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6DE818B25BA36240019BED1 /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		E690058825BAD5A700BEBDF1 /* Embed Frameworks */ = {
+		E62A7ACC2773D326007CE3D6 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				E64BDA9C25BAD9B4005368B4 /* UnityFramework.framework in Embed Frameworks */,
+				E62A7ACB2773D326007CE3D6 /* UnityFramework.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -32,12 +34,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		E61361FA25BA3C080005B57A /* NativeCallProxy-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NativeCallProxy-Bridging-Header.h"; sourceTree = "<group>"; };
 		E61361FB25BA3CFA0005B57A /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E61361FD25BA3D150005B57A /* UnityBridge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnityBridge.swift; sourceTree = "<group>"; };
+		E62A7AC92773D326007CE3D6 /* UnityFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = UnityFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E62A7ACD2773E48A007CE3D6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		E62A7ACF2773E4DA007CE3D6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		E62A7AD32773F6AC007CE3D6 /* UIWindowCustom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIWindowCustom.swift; sourceTree = "<group>"; };
 		E64BDA9025BAD700005368B4 /* UnityFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = UnityFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6DE818125BA36230019BED1 /* sandbox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sandbox.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		E6DE818425BA36230019BED1 /* sandboxApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sandboxApp.swift; sourceTree = "<group>"; };
 		E6DE818625BA36230019BED1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		E6DE818825BA36240019BED1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E6DE818B25BA36240019BED1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -49,7 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E64BDA9B25BAD9B4005368B4 /* UnityFramework.framework in Frameworks */,
+				E62A7ACA2773D326007CE3D6 /* UnityFramework.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,6 +63,7 @@
 		E61361F525BA3AB40005B57A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E62A7AC92773D326007CE3D6 /* UnityFramework.framework */,
 				E64BDA9025BAD700005368B4 /* UnityFramework.framework */,
 			);
 			name = Frameworks;
@@ -85,13 +90,14 @@
 			isa = PBXGroup;
 			children = (
 				E61361FB25BA3CFA0005B57A /* LaunchScreen.storyboard */,
-				E6DE818425BA36230019BED1 /* sandboxApp.swift */,
 				E6DE818625BA36230019BED1 /* ContentView.swift */,
 				E61361FD25BA3D150005B57A /* UnityBridge.swift */,
 				E6DE818825BA36240019BED1 /* Assets.xcassets */,
 				E6DE818D25BA36240019BED1 /* Info.plist */,
 				E6DE818A25BA36240019BED1 /* Preview Content */,
-				E61361FA25BA3C080005B57A /* NativeCallProxy-Bridging-Header.h */,
+				E62A7ACD2773E48A007CE3D6 /* AppDelegate.swift */,
+				E62A7ACF2773E4DA007CE3D6 /* SceneDelegate.swift */,
+				E62A7AD32773F6AC007CE3D6 /* UIWindowCustom.swift */,
 			);
 			path = sandbox;
 			sourceTree = "<group>";
@@ -114,7 +120,7 @@
 				E6DE817D25BA36230019BED1 /* Sources */,
 				E6DE817E25BA36230019BED1 /* Frameworks */,
 				E6DE817F25BA36230019BED1 /* Resources */,
-				E690058825BAD5A700BEBDF1 /* Embed Frameworks */,
+				E62A7ACC2773D326007CE3D6 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -175,9 +181,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E62A7AD02773E4DA007CE3D6 /* SceneDelegate.swift in Sources */,
+				E62A7AD42773F6AC007CE3D6 /* UIWindowCustom.swift in Sources */,
+				E62A7ACE2773E48A007CE3D6 /* AppDelegate.swift in Sources */,
 				E6DE818725BA36230019BED1 /* ContentView.swift in Sources */,
 				E61361FE25BA3D150005B57A /* UnityBridge.swift in Sources */,
-				E6DE818525BA36230019BED1 /* sandboxApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,7 +315,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"sandbox/Preview Content\"";
-				DEVELOPMENT_TEAM = X69FKJ5KGT;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = sandbox/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -317,7 +325,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.sandbox.example.sandbox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/$(PROJECT_NAME)/NativeCallProxy-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -330,7 +338,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"sandbox/Preview Content\"";
-				DEVELOPMENT_TEAM = X69FKJ5KGT;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = sandbox/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -340,7 +348,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.sandbox.example.sandbox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/$(PROJECT_NAME)/NativeCallProxy-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using UnityEngine.UI;
 using UnityEngine;
 using AOT;
+using Newtonsoft.Json;
 
 /// <summary>
 /// C-API exposed by the Host, i.e., Unity -> Host API.
@@ -32,8 +33,32 @@ public class UnityNativeAPI {
 
 }
 
+/// <summary>
+/// This structure holds the type of an incoming message.
+/// Based on the type, we will parse the extra provided data.
+/// </summary>
+public struct Message
+{
+    public string type;
+}
+
+/// <summary>
+/// This structure holds the type of an incoming message, as well
+/// as some data.
+/// </summary>
+public struct MessageWithData<T>
+{
+    [JsonProperty(Required = Newtonsoft.Json.Required.AllowNull)]
+    public string type;
+
+    [JsonProperty(Required = Newtonsoft.Json.Required.AllowNull)]
+    public T data;
+}
+
 public class API : MonoBehaviour
 {
+    public GameObject cube;
+
     void Start()
     {
         #if UNITY_IOS
@@ -42,5 +67,30 @@ public class API : MonoBehaviour
             HostNativeAPI.sendUnityStateUpdate("ready");
         }
         #endif
+    }
+
+    void ReceiveMessage(string serializedMessage)
+    {
+        var header = JsonConvert.DeserializeObject<Message>(serializedMessage);
+        switch (header.type) {
+            case "change-color":
+                _UpdateCubeColor(serializedMessage);
+                break;
+            default:
+                Debug.LogError("Unrecognized message '" + header.type + "'");
+                break;
+        }
+    }
+
+    private void _UpdateCubeColor(string serialized)
+    {
+        var msg = JsonConvert.DeserializeObject<MessageWithData<float[]>>(serialized);
+        if (msg.data != null && msg.data.Length >= 3)
+        {
+            var color = new Color(msg.data[0], msg.data[1], msg.data[2]);
+            Debug.Log("Setting Color = " + color);
+            var material = cube.GetComponent<MeshRenderer>()?.sharedMaterial;
+            material?.SetColor("_Color", color);
+        }
     }
 }
