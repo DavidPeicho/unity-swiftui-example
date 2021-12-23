@@ -38,15 +38,9 @@ For a complete explanation of the architecture of this example, please have a
 look at my two blog posts:
 
 * [https://davidpeicho.github.io/blog/unity-integration-swiftui/](https://davidpeicho.github.io/blog/unity-integration-swiftui/)
-* [https://davidpeicho.github.io/blog/unity-integration-swiftui/](https://davidpeicho.github.io/blog/unity-swiftui-integration-revisited/).
+* [https://davidpeicho.github.io/blog/unity-swiftui-integration-revisited/](https://davidpeicho.github.io/blog/unity-swiftui-integration-revisited/).
 
 The second link is an improvement of the first one. The `main` branch of this repository is in the same state as the second blog post.
-
-TODO:
-
-* Having a LaunchScreen is mandatory for Unity to work
-* Function pointer from Unity to iOS for cross communication
-* Load the UnityFramework
 
 ## FAQ
 
