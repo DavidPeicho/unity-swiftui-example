@@ -3,7 +3,7 @@
 This repository demonstrates how to integrate Unity 2020.2.1f1 into
 a Swift iOS app based on SwiftUI and built with XCode 12.
 
-![Example of Unity running in a native SwiftUI app](https://davidpeicho.github.io/images/posts/unityswiftui.jpg)
+![Example of Unity running in a native SwiftUI app](https://davidpeicho.github.io/images/posts/unityswiftui-revisited.jpg)
 
 This repository is heavily based on the example published by Unity Technologies
 available [here](https://github.com/Unity-Technologies/uaal-example/blob/master/docs/ios.md).
