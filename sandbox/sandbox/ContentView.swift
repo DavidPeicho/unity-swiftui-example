@@ -7,29 +7,51 @@
 
 import SwiftUI
 
-struct MyViewController: UIViewControllerRepresentable {
+struct UnityView: UIViewControllerRepresentable {
 
-  func makeUIViewController(context: Context) -> UIViewController {
-    let vc = UIViewController()
-    
-    UnityBridge.getInstance().onReady = {
-        print("Unity is now ready!")
-        UnityBridge.getInstance().show(controller: vc)
-        let api = UnityBridge.getInstance().api
-        api.test("This string travels far, far away toward Unity")
+    func makeUIViewController(context: Context) -> UIViewController {
+        let vc = UIViewController()
+
+        UnityBridge.getInstance().superview = vc.view
+        UnityBridge.getInstance().onReady = {
+            print("Unity is now ready!")
+            let api = UnityBridge.getInstance().api
+            api.test("This string travels far, far away toward Unity")
+        }
+
+        return vc
     }
 
-    return vc
-  }
+    func updateUIViewController(_ viewController: UIViewController, context: Context) {}
+}
 
-  func updateUIViewController(_ viewController: UIViewController, context: Context) {}
+struct OtherUnityView: UIViewControllerRepresentable {
+
+    func makeUIViewController(context: Context) -> UIViewController {
+        let vc = UIViewController()
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+            UnityBridge.getInstance().superview = vc.view
+        }
+
+        return vc
+    }
+
+    func updateUIViewController(_ viewController: UIViewController, context: Context) {}
 }
 
 struct ContentView: View {
     
     var body: some View {
         ZStack {
-            MyViewController()
+            UnityView()
+
+            // OtherUnityView().frame(width: 200, height: 200, alignment: .center).offset(x: 100, y: 0)
+            /* Uncomment the above line to see that we can swap UnityBridge to another view
+             and control its size and position. Unity's documentation says that "Unity as a
+             Library only supports full-screen rendering, and doesn’t support rendering on
+             part of the screen.", but we have overcome this limitation. */
+
             Text("This text overlaps Unity!")
         }
     }

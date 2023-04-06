@@ -29,7 +29,7 @@ class API: NativeCallsProtocol {
     internal func onUnityStateChange(_ state: String) {
         switch (state) {
         case "ready":
-            self.bridge.unityGotReady()
+            self.bridge.onReady()
         default:
             return
         }
@@ -45,15 +45,29 @@ class UnityBridge: UIResponder, UIApplicationDelegate, UnityFrameworkListener {
  
     private static var instance : UnityBridge?
     
-    internal(set) public var isReady: Bool = false
-    public var api: API
     private let ufw: UnityFramework
-    
-    public var view: UIView? {
-        get { return self.ufw.appController()?.rootView }
+    private let rootVCKeyPath = "rootViewController"
+    private var view: UIView? {
+        get { return ufw.appController()?.window?.rootViewController?.view }
     }
+
+    public var api: API
     public var onReady: () -> () = {}
-    
+    public var superview: UIView? {
+        didSet {
+            let window = ufw.appController()?.window
+
+            if oldValue != nil {
+                // prevent accumulation of multiple observers
+                window?.removeObserver(self, forKeyPath: rootVCKeyPath)
+            }
+            if superview != nil {
+                // register new observer; it fires on register and on new value at key path
+                window?.addObserver(self, forKeyPath: rootVCKeyPath, options: [.initial, .new], context: nil)
+            }
+        }
+    }
+
     public static func getInstance() -> UnityBridge {
         if UnityBridge.instance == nil {
             UnityBridge.instance = UnityBridge()
@@ -89,27 +103,21 @@ class UnityBridge: UIResponder, UIApplicationDelegate, UnityFrameworkListener {
         ufw.runEmbedded(withArgc: CommandLine.argc, argv: CommandLine.unsafeArgv, appLaunchOpts: nil)
     }
     
-    public func show(controller: UIViewController) {
-        if self.isReady {
-            self.ufw.showUnityWindow()
+    internal override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == rootVCKeyPath, let superview = self.superview, let view = self.view  {
+            // the root UIViewController of Unity's UIWindow has been assigned
+            // now is the proper moment to apply our superview if we have one
+            superview.addSubview(view)
+            view.frame = superview.frame
         }
-        if let view = self.view {
-            controller.view?.addSubview(view)
-        }
-    }
+   }
 
     public func unload() {
-        self.ufw.unloadApplication()
-    }
-    
-    internal func unityGotReady() {
-        self.isReady = true
-        onReady()
+        ufw.unloadApplication()
     }
     
     internal func unityDidUnload(_ notification: Notification!) {
         ufw.unregisterFrameworkListener(self)
         UnityBridge.instance = nil
     }
- 
 }
