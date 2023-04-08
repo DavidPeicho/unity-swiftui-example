@@ -55,10 +55,10 @@ class UnityBridge: UIResponder, UIApplicationDelegate, UnityFrameworkListener {
             observation?.invalidate()
 
             if superview == nil {
-                ufw.appController()?.window.rootViewController?.view.removeFromSuperview()
+                ufw.appController().window.rootViewController?.view.removeFromSuperview()
             } else {
                 // register new observation; it fires on register and on new value at .rootViewController
-                observation = ufw.appController()?.window.observe(\.rootViewController, options: [.initial, .new], changeHandler: subviewUnity)
+                observation = ufw.appController().window.observe(\.rootViewController, options: [.initial, .new], changeHandler: subviewUnity)
             }
         }
     }
@@ -95,12 +95,13 @@ class UnityBridge: UIResponder, UIApplicationDelegate, UnityFrameworkListener {
         self.ufw.register(self)
         FrameworkLibAPI.registerAPIforNativeCalls(self.api)
    
+        // runEmbedded will call the framework's showUnityWindow method internally
         ufw.runEmbedded(withArgc: CommandLine.argc, argv: CommandLine.unsafeArgv, appLaunchOpts: nil)
     }
     
     private func subviewUnity(_ window: UIWindow, _ change: NSKeyValueObservedChange<UIViewController?>) {
         if let superview = self.superview, let view = window.rootViewController?.view {
-            // the root UIViewController of Unity's UIWindow has been assigned
+            // the rootViewController of Unity's window has been assigned
             // now is the proper moment to apply our superview if we have one
             superview.addSubview(view)
             view.frame = superview.frame
