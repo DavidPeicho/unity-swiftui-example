@@ -44,26 +44,18 @@ class API: NativeCallsProtocol {
 class UnityBridge: UIResponder, UIApplicationDelegate, UnityFrameworkListener {
  
     private static var instance : UnityBridge?
-    
     private let ufw: UnityFramework
-    private let rootVCKeyPath = "rootViewController"
-    private var view: UIView? {
-        get { return ufw.appController()?.window?.rootViewController?.view }
-    }
+    private var observation: NSKeyValueObservation?
 
     public var api: API
     public var onReady: () -> () = {}
     public var superview: UIView? {
         didSet {
-            let window = ufw.appController()?.window
+            observation?.invalidate()
 
-            if oldValue != nil {
-                // prevent accumulation of multiple observers
-                window?.removeObserver(self, forKeyPath: rootVCKeyPath)
-            }
             if superview != nil {
-                // register new observer; it fires on register and on new value at key path
-                window?.addObserver(self, forKeyPath: rootVCKeyPath, options: [.initial, .new], context: nil)
+                // register new observer; it fires on register and on new value at .rootViewController
+                observation = ufw.appController()?.window.observe(\.rootViewController, options: [.initial, .new], changeHandler: subviewUnity)
             }
         }
     }
@@ -103,14 +95,14 @@ class UnityBridge: UIResponder, UIApplicationDelegate, UnityFrameworkListener {
         ufw.runEmbedded(withArgc: CommandLine.argc, argv: CommandLine.unsafeArgv, appLaunchOpts: nil)
     }
     
-    internal override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if keyPath == rootVCKeyPath, let superview = self.superview, let view = self.view  {
+    private func subviewUnity(_ window: UIWindow, _ change: NSKeyValueObservedChange<UIViewController?>) {
+        if let superview = self.superview, let view = window.rootViewController?.view {
             // the root UIViewController of Unity's UIWindow has been assigned
             // now is the proper moment to apply our superview if we have one
             superview.addSubview(view)
             view.frame = superview.frame
         }
-   }
+    }
 
     public func unload() {
         ufw.unloadApplication()
