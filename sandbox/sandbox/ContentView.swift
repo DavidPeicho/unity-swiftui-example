@@ -33,6 +33,12 @@ struct OtherUnityView: UIViewControllerRepresentable {
         DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
             UnityBridge.getInstance().superview = vc.view
         }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 8.0) {
+            UnityBridge.getInstance().superview = nil
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 11.0) {
+            UnityBridge.getInstance().superview = vc.view
+        }
 
         return vc
     }

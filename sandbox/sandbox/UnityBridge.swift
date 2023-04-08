@@ -51,10 +51,13 @@ class UnityBridge: UIResponder, UIApplicationDelegate, UnityFrameworkListener {
     public var onReady: () -> () = {}
     public var superview: UIView? {
         didSet {
+            // remove old observation
             observation?.invalidate()
 
-            if superview != nil {
-                // register new observer; it fires on register and on new value at .rootViewController
+            if superview == nil {
+                ufw.appController()?.window.rootViewController?.view.removeFromSuperview()
+            } else {
+                // register new observation; it fires on register and on new value at .rootViewController
                 observation = ufw.appController()?.window.observe(\.rootViewController, options: [.initial, .new], changeHandler: subviewUnity)
             }
         }
