@@ -73,9 +73,7 @@ class UnityBridge: UIResponder, UIApplicationDelegate, UnityFrameworkListener {
     private static func loadUnityFramework() -> UnityFramework? {
         let bundlePath: String = Bundle.main.bundlePath + "/Frameworks/UnityFramework.framework"
         let bundle = Bundle(path: bundlePath)
-        if bundle?.isLoaded == false {
-            bundle?.load()
-        }
+        bundle?.load()
    
         let ufw = bundle?.principalClass?.getInstance()
         if ufw?.appController() == nil {
