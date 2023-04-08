@@ -44,7 +44,7 @@ struct ContentView: View {
     
     var body: some View {
         ZStack {
-            UnityView()
+            UnityView().ignoresSafeArea()
 
             // OtherUnityView().frame(width: 200, height: 200, alignment: .center).offset(x: 100, y: 0)
             /* Uncomment the above line to see that we can swap UnityBridge to another view
