@@ -58,7 +58,14 @@ class UnityBridge: UIResponder, UIApplicationDelegate, UnityFrameworkListener {
                 ufw.appController().window.rootViewController?.view.removeFromSuperview()
             } else {
                 // register new observation; it fires on register and on new value at .rootViewController
-                observation = ufw.appController().window.observe(\.rootViewController, options: [.initial, .new], changeHandler: subviewUnity)
+                observation = ufw.appController().window.observe(\.rootViewController, options: [.initial, .new], changeHandler: { [weak self] (window, _) in
+                    if let superview = self?.superview, let view = window.rootViewController?.view {
+                        // the rootViewController of Unity's window has been assigned
+                        // now is the proper moment to apply our superview if we have one
+                        superview.addSubview(view)
+                        view.frame = superview.frame
+                    }
+                })
             }
         }
     }
@@ -94,16 +101,10 @@ class UnityBridge: UIResponder, UIApplicationDelegate, UnityFrameworkListener {
         FrameworkLibAPI.registerAPIforNativeCalls(self.api)
    
         // runEmbedded will call the framework's showUnityWindow method internally
-        ufw.runEmbedded(withArgc: CommandLine.argc, argv: CommandLine.unsafeArgv, appLaunchOpts: nil)
-    }
-    
-    private func subviewUnity(_ window: UIWindow, _ change: NSKeyValueObservedChange<UIViewController?>) {
-        if let superview = self.superview, let view = window.rootViewController?.view {
-            // the rootViewController of Unity's window has been assigned
-            // now is the proper moment to apply our superview if we have one
-            superview.addSubview(view)
-            view.frame = superview.frame
-        }
+        self.ufw.runEmbedded(withArgc: CommandLine.argc, argv: CommandLine.unsafeArgv, appLaunchOpts: nil)
+
+        // Unity claims the key window, so let user interactions passthrough to our window
+        self.ufw.appController().window.isUserInteractionEnabled = false
     }
 
     public func unload() {

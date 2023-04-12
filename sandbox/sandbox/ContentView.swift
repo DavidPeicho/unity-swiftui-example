@@ -15,8 +15,7 @@ struct UnityView: UIViewControllerRepresentable {
         UnityBridge.getInstance().superview = vc.view
         UnityBridge.getInstance().onReady = {
             print("Unity is now ready!")
-            let api = UnityBridge.getInstance().api
-            api.test("This string travels far, far away toward Unity")
+            UnityBridge.getInstance().api.test("This string travels far, far away toward Unity")
         }
 
         return vc
@@ -58,7 +57,9 @@ struct ContentView: View {
              Library only supports full-screen rendering, and doesn’t support rendering on
              part of the screen.", but we have overcome this limitation. */
 
-            Text("This text overlaps Unity!")
+            Button("This button overlaps Unity!", action: {
+                UnityBridge.getInstance().api.test("Native button pressed!")
+            }).buttonStyle(.borderedProminent).tint(.blue)
         }
     }
 }
