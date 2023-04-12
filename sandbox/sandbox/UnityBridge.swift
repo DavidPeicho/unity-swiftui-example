@@ -12,14 +12,14 @@ class API: NativeCallsProtocol {
         Function pointers to static functions declared in Unity
      */
     
-    private var testCallback: TestDelegate!
+    private var testCallback: TestDelegate?
     
     /**
         Public API
      */
     
     public func test(_ value: String) {
-        self.testCallback(value)
+        self.testCallback?(value)
     }
     
     /**
