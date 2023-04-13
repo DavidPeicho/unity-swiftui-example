@@ -58,7 +58,7 @@ class UnityBridge: UIResponder, UIApplicationDelegate, UnityFrameworkListener {
                 ufw.appController().window.rootViewController?.view.removeFromSuperview()
             } else {
                 // register new observation; it fires on register and on new value at .rootViewController
-                observation = ufw.appController().window.observe(\.rootViewController, options: [.initial, .new], changeHandler: { [weak self] (window, _) in
+                observation = ufw.appController().window.observe(\.rootViewController, options: [.initial], changeHandler: { [weak self] (window, _) in
                     if let superview = self?.superview, let view = window.rootViewController?.view {
                         // the rootViewController of Unity's window has been assigned
                         // now is the proper moment to apply our superview if we have one
