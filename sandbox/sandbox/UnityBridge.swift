@@ -12,14 +12,14 @@ class API: NativeCallsProtocol {
         Function pointers to static functions declared in Unity
      */
     
-    private var testCallback: TestDelegate!
+    private var testCallback: TestDelegate?
     
     /**
         Public API
      */
     
     public func test(_ value: String) {
-        self.testCallback(value)
+        self.testCallback?(value)
     }
     
     /**
@@ -29,7 +29,7 @@ class API: NativeCallsProtocol {
     internal func onUnityStateChange(_ state: String) {
         switch (state) {
         case "ready":
-            self.bridge.unityGotReady()
+            self.bridge.onReady()
         default:
             return
         }
@@ -41,19 +41,35 @@ class API: NativeCallsProtocol {
     
 }
 
-class UnityBridge: UIResponder, UIApplicationDelegate, UnityFrameworkListener {
+class UnityBridge: UIResponder, UnityFrameworkListener {
  
     private static var instance : UnityBridge?
-    
-    internal(set) public var isReady: Bool = false
-    public var api: API
     private let ufw: UnityFramework
-    
-    public var view: UIView? {
-        get { return self.ufw.appController()?.rootView }
-    }
+    private var observation: NSKeyValueObservation?
+
+    public var api: API
     public var onReady: () -> () = {}
-    
+    public var superview: UIView? {
+        didSet {
+            // remove old observation
+            observation?.invalidate()
+
+            if superview == nil {
+                ufw.appController().window.rootViewController?.view.removeFromSuperview()
+            } else {
+                // register new observation; it fires on register and on new value at .rootViewController
+                observation = ufw.appController().window.observe(\.rootViewController, options: [.initial], changeHandler: { [weak self] (window, _) in
+                    if let superview = self?.superview, let view = window.rootViewController?.view {
+                        // the rootViewController of Unity's window has been assigned
+                        // now is the proper moment to apply our superview if we have one
+                        superview.addSubview(view)
+                        view.frame = superview.frame
+                    }
+                })
+            }
+        }
+    }
+
     public static func getInstance() -> UnityBridge {
         if UnityBridge.instance == nil {
             UnityBridge.instance = UnityBridge()
@@ -64,9 +80,7 @@ class UnityBridge: UIResponder, UIApplicationDelegate, UnityFrameworkListener {
     private static func loadUnityFramework() -> UnityFramework? {
         let bundlePath: String = Bundle.main.bundlePath + "/Frameworks/UnityFramework.framework"
         let bundle = Bundle(path: bundlePath)
-        if bundle?.isLoaded == false {
-            bundle?.load()
-        }
+        bundle?.load()
    
         let ufw = bundle?.principalClass?.getInstance()
         if ufw?.appController() == nil {
@@ -85,31 +99,20 @@ class UnityBridge: UIResponder, UIApplicationDelegate, UnityFrameworkListener {
         self.api.bridge = self
         self.ufw.register(self)
         FrameworkLibAPI.registerAPIforNativeCalls(self.api)
-   
-        ufw.runEmbedded(withArgc: CommandLine.argc, argv: CommandLine.unsafeArgv, appLaunchOpts: nil)
-    }
-    
-    public func show(controller: UIViewController) {
-        if self.isReady {
-            self.ufw.showUnityWindow()
-        }
-        if let view = self.view {
-            controller.view?.addSubview(view)
-        }
+
+        // runEmbedded will call the framework's showUnityWindow method internally
+        self.ufw.runEmbedded(withArgc: CommandLine.argc, argv: CommandLine.unsafeArgv, appLaunchOpts: nil)
+
+        // Unity claims the key window, so let user interactions passthrough to our window
+        self.ufw.appController().window.isUserInteractionEnabled = false
     }
 
     public func unload() {
-        self.ufw.unloadApplication()
-    }
-    
-    internal func unityGotReady() {
-        self.isReady = true
-        onReady()
+        ufw.unloadApplication()
     }
     
     internal func unityDidUnload(_ notification: Notification!) {
         ufw.unregisterFrameworkListener(self)
         UnityBridge.instance = nil
     }
- 
 }
