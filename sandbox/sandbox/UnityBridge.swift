@@ -41,7 +41,7 @@ class API: NativeCallsProtocol {
     
 }
 
-class UnityBridge: UIResponder, UIApplicationDelegate, UnityFrameworkListener {
+class UnityBridge: UIResponder, UnityFrameworkListener {
  
     private static var instance : UnityBridge?
     private let ufw: UnityFramework
@@ -99,7 +99,7 @@ class UnityBridge: UIResponder, UIApplicationDelegate, UnityFrameworkListener {
         self.api.bridge = self
         self.ufw.register(self)
         FrameworkLibAPI.registerAPIforNativeCalls(self.api)
-   
+
         // runEmbedded will call the framework's showUnityWindow method internally
         self.ufw.runEmbedded(withArgc: CommandLine.argc, argv: CommandLine.unsafeArgv, appLaunchOpts: nil)
 
